@@ -1,0 +1,111 @@
+name: Regression Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run (smoke / regression / api / ui)'
+        required: false
+        default: 'smoke'
+
+env:
+  PYTHON_VERSION: "3.12"
+  INVENTREE_USERNAME: ${{ secrets.INVENTREE_USERNAME }}
+  INVENTREE_PASSWORD: ${{ secrets.INVENTREE_PASSWORD }}
+  BASE_URL: https://demo.inventree.org
+  API_BASE_URL: https://demo.inventree.org/api
+  HEADLESS: "true"
+
+jobs:
+  # ─── Spin up InvenTree via Docker Compose ───────────────────────────────────
+  inventree-service:
+    runs-on: ubuntu-latest
+    services:
+      inventree:
+        image: inventree/inventree:stable
+        ports:
+          - 1337:1337
+        env:
+          INVENTREE_DB_ENGINE: django.db.backends.sqlite3
+          INVENTREE_DB_NAME: /home/inventree/data/database.db
+          INVENTREE_ADMIN_USER: ${{ secrets.INVENTREE_USERNAME }}
+          INVENTREE_ADMIN_PASSWORD: ${{ secrets.INVENTREE_PASSWORD }}
+          INVENTREE_ADMIN_EMAIL: admin@test.local
+        options: >-
+          --health-cmd "curl -f https://demo.inventree.org/api/ || exit 1"
+          --health-interval 15s
+          --health-timeout 10s
+          --health-retries 10
+
+    steps:
+      # ─── Checkout ─────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ─── Python setup ─────────────────────────────────────────────────────
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      # ─── Install dependencies ─────────────────────────────────────────────
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      # ─── Install Playwright browsers ──────────────────────────────────────
+      - name: Install Playwright browsers
+        run: playwright install chromium --with-deps
+
+      # ─── Create output directories ────────────────────────────────────────
+      - name: Create output directories
+        run: mkdir -p reports screenshots logs
+
+      # ─── Run API Tests ────────────────────────────────────────────────────
+      - name: Run API tests
+        run: |
+          pytest tests/api/ \
+            -m "api" \
+            --html=reports/api-report.html \
+            --self-contained-html \
+            -v
+        continue-on-error: true
+
+      # ─── Run UI Smoke Tests ───────────────────────────────────────────────
+      - name: Run UI smoke tests
+        run: |
+          pytest tests/ui/ \
+            -m "smoke" \
+            --html=reports/ui-smoke-report.html \
+            --self-contained-html \
+            -v
+        continue-on-error: true
+
+      # ─── Upload Reports ───────────────────────────────────────────────────
+      - name: Upload HTML reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: reports/
+          retention-days: 14
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-screenshots
+          path: screenshots/
+          retention-days: 7
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: logs/
+          retention-days: 7

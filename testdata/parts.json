@@ -1,0 +1,40 @@
+[
+  {
+    "name": "Test Resistor 10K",
+    "IPN": "RES-10K-0402",
+    "description": "10K Ohm resistor 0402 package",
+    "units": "pcs",
+    "active": true,
+    "component": true,
+    "purchaseable": true,
+    "trackable": false
+  },
+  {
+    "name": "Capacitor 100uF",
+    "IPN": "CAP-100UF-25V",
+    "description": "100uF electrolytic capacitor 25V",
+    "units": "pcs",
+    "active": true,
+    "component": true,
+    "purchaseable": true
+  },
+  {
+    "name": "LED Red 5mm",
+    "IPN": "LED-RED-5MM",
+    "description": "Red 5mm through-hole LED",
+    "units": "pcs",
+    "active": true,
+    "component": true,
+    "purchaseable": true
+  },
+  {
+    "name": "PCB Assembly v1",
+    "IPN": "ASM-PCB-001",
+    "description": "Main PCB assembly",
+    "units": "pcs",
+    "active": true,
+    "assembly": true,
+    "purchaseable": false,
+    "salable": true
+  }
+]

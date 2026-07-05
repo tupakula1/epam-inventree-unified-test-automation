@@ -1,0 +1,29 @@
+[
+  {
+    "scenario": "missing_name",
+    "payload": {"description": "Part without required name field"},
+    "expected_status": 400,
+    "expected_error_field": "name"
+  },
+  {
+    "scenario": "name_too_long",
+    "payload": {"name": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"},
+    "expected_status": 400
+  },
+  {
+    "scenario": "empty_name",
+    "payload": {"name": ""},
+    "expected_status": 400,
+    "expected_error_field": "name"
+  },
+  {
+    "scenario": "invalid_category_id",
+    "payload": {"name": "Part With Bad Category", "category": 999999},
+    "expected_status": 400
+  },
+  {
+    "scenario": "null_name",
+    "payload": {"name": null},
+    "expected_status": 400
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {"name": "Electronic Components"},
+  {"name": "Passive Components"},
+  {"name": "Resistors"},
+  {"name": "Capacitors"},
+  {"name": "Inductors"},
+  {"name": "Active Components"},
+  {"name": "Integrated Circuits"},
+  {"name": "Transistors"},
+  {"name": "Assemblies"},
+  {"name": "PCB Assemblies"}
+]

@@ -1,0 +1,28 @@
+demo_defaults: &demo_defaults
+  ui_base_url: https://demo.inventree.org
+  api_base_url: https://demo.inventree.org/api
+  browser: chromium
+  headless: false
+
+local:
+  ui_base_url: https://docs.inventree.org/en/stable/part/
+  api_base_url: https://demo.inventree.org/api
+  browser: chromium
+  headless: false
+demo:
+  ui_base_url: https://docs.inventree.org/en/stable/part/
+  api_base_url: https://demo.inventree.org/api
+  browser: chromium
+  headless: false
+
+staging:
+  ui_base_url: http://staging.inventree.local
+  api_base_url: http://staging.inventree.local/api
+  browser: chromium
+  headless: false
+
+docs:
+  ui_base_url: https://docs.inventree.org/en/stable/part/
+  api_base_url: https://docs.inventree.org/en/stable/api/schema/part/
+  browser: chromium
+  headless: true
