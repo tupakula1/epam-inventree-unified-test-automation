@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # EPAM InvenTree Unified Test Automation Framework
 
 AI-assisted test automation framework for the InvenTree Parts domain, combining API BDD and UI docs validation with pytest, Playwright, and Allure.
@@ -215,3 +216,6 @@ Defined in `pytest.ini`:
 | [docs/TestStrategy.md](docs/TestStrategy.md) | Scope, risk coverage, and approach |
 | [docs/AI-Prompts.md](docs/AI-Prompts.md) | Prompts used during AI-assisted implementation |
 | [docs/SolutionApproach.md](docs/SolutionApproach.md) | End-to-end solution narrative |
+=======
+Epam InvenTree unified test automation framework
+>>>>>>> 7a313fd6da5432c20317af0f546aa3ac9a2f28e8
